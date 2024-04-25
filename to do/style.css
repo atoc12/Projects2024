@@ -34,8 +34,11 @@
 }
 
 #tareas>section>div:last-of-type{
+    flex: 1;
     padding: 1em;
-    height: 500px;
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 1em;
     box-shadow: 0px 0px 10px -8px black;
     border-radius: .5em;
     overflow: auto;
@@ -43,10 +46,23 @@
 
 .card-task{
     border: 1px solid black;
+    border-radius: .5em;
     transition: all 200ms linear;
     cursor: pointer;
     position: relative;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    padding: 0em 1em 1em 1em;
+}
+.card-options{
+    background-color: red;
+    width:  100%;
+    pointer-events: none ;
+    z-index: 999;
+}
+.card-btn-delete{
 }
 .card-task:hover{
     background-color: black;
@@ -56,7 +72,7 @@
     user-select: none;
 }
 .card-task>div:last-of-type{
-    position: absolute;
+    position: relative;
 }
 .card-task[data-open="open"]{
     height: 300px;
@@ -64,4 +80,17 @@
 .card-task[data-open="close"]{
     height: 30px;
 
+}
+.card-task-container{
+    pointer-events: none;
+    background-color: white;
+    border-radius: .5em;
+    color: black;
+    height: 100%;
+    width: 100%;
+}
+
+.card-new{
+    background-color: red;
+    height: 100px;
 }
