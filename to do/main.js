@@ -5,7 +5,6 @@ const libreta={ // Diccionario que guarda los elementos HTML en los que se va vi
     progress:document.getElementById("progress"),
     end:document.getElementById("end"),
 };
-
 function countUpdate (){
     document.getElementById("countTask").innerText=TASK.length;
 }
@@ -20,16 +19,31 @@ function createComponent (form){ // Crea un componente
     component.setAttribute("data-open","close");
     component.innerHTML=
     `
-    <div>
-        <h1>
-            ${form.tittle}
-        </h1>
+    <div class="col">
+        <section class="row aling-center justify-between">
+            <h1>
+                ${form.tittle}
+            </h1>
+
+            <span>
+                ${form.date.toLocaleDateString()}
+            </span>
+        </section>
+
 
     </div>
 
-    <div class="card-task-container">
+    <div class="card-task-container" draggable="false">
         <p>${form.description}</p>
     </div>
+    <span class="card-task-date row justify-between">
+        <span>
+            ${form.date.toLocaleTimeString()}
+        </span>
+        <span class="card-arrow">
+            >
+        </span>
+    </span>
     `;
     TASK.push({...form,body:component});
     countUpdate();
@@ -38,6 +52,7 @@ function createComponent (form){ // Crea un componente
 function cloneEventsComponent (element){// retorna el elemento copiado con eventos predefinidos
     element.addEventListener("click",dropBoxAction);
     element.addEventListener("dragstart",(e)=>elementMove = element);
+    element.querySelector(".card-task-container").addEventListener("click",e=>e.stopPropagation());
     return element;
 };
 function handleSubmit (e){//Ejecución del formulario
@@ -46,12 +61,14 @@ function handleSubmit (e){//Ejecución del formulario
         let form ={ // Guarda los valores del formulario en un diccionario
             tittle:e.target["titulo-form"].value,
             description:e.target["description-form"].value,
-            date:Date.now(),
+            date:new Date(),
         }
+
         if(form.tittle.length > 0 && form.tittle != " " ){
             let childClone = createComponent(form);
             childClone= cloneEventsComponent(childClone);
             libreta.task.append(childClone);
+            document.getElementById("modal-primary").setAttribute("data-modal","close");
         }else{
             alert("Es necesario utilizar un titúlo");
         }
@@ -80,4 +97,3 @@ for (let element in libreta) {
 
     libreta[element].addEventListener("drop",e=>dropTask(e,element));
 };
-

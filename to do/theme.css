@@ -1,0 +1,18 @@
+:root {
+    --background-color: #fff;   
+    --text-color: #000;
+    --background-secondary:#f0f6ff;
+    --background-terty:#020913;
+    --text-primary:#f0f6ff;
+    --border-color-primary:#3798f9;
+    --btn-primary:#0d7bea;
+    --btn-primary-hover:#024ba2;
+}
+
+/* Estilos para el modo oscuro */
+@media (prefers-color-scheme: dark) {
+:root {
+    --background-color: #141414;
+    --text-color: #fff;
+}
+}

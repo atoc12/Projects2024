@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="theme.css">
+    <link rel="stylesheet" href="class.css">
     <title>Document</title>
 </head>
 <body>
@@ -11,24 +13,28 @@
     <div class="container">
 
         <section>
-
-            <form id="form-task">
-
-                <div>
-                    <label for="titulo-form">Titulo</label>
-                    <input type="text" id="titulo-form">
-                </div>
-
-                <div>
-                    <label for="description-form">Descripción</label>
-                    <input type="text" id="description-form">
-                </div>
-
-                <div>
-                    <button type="submit">Enviar</button>
-                </div>
-
-            </form>
+            <div id="modal-primary" class="modal center left top p-2 justify-center aling-center flex" data-modal="close">
+                <button class="btn modal-btn">x</button>
+                <form id="form-task" class="bg-secondary p-1 br-1 justify-center aling-center flex m-w-500 col-1">
+                    <section class="col gap-2">
+                        <div class="col gap-1">
+                            <label for="titulo-form">Titulo</label>
+                            <input class="form-control p-05 form-input" type="text" id="titulo-form">
+                        </div>
+        
+                        <div class="col gap-1">
+                            <label for="description-form">Descripción</label>
+                            <input class="form-control p-05 form-input" type="text" id="description-form">
+                        </div>
+                        
+                        <div>
+                            <button type="submit" class="btn btn-primary p-05">Enviar</button>
+                        </div>
+                    </section>
+    
+    
+                </form>
+            </div>
 
             <span id="countTask">
 
@@ -36,6 +42,16 @@
 
         </section>
 
+        <section class="row aling-center bg-secondary justify-between p-1">
+            <div>
+                options
+            </div>
+
+            <div>
+                <button data-modal-select="modal-primary" class="btn modal-btn-external">+ <span>Create</span></button>
+            </div>
+
+        </section>
 
         <section id="tareas">
 
@@ -81,5 +97,6 @@
     </div>
 
     <script src="main.js"></script>
+    <script src="./modal.js"></script>
 </body>
 </html>
