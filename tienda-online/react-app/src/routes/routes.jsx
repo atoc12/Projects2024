@@ -7,10 +7,10 @@ const RoutesComponent = ()=>{
     return(
         <BrowserRouter>
             <Routes>
-                <Route path='*' element={ <> ERROR 404 Page not found</>} />
-                <Route element={<Index/>}>
-                    <Route path='/' element ={<Home/>}> </Route>
-                    <Route path='/:title/:id' element={<ProductsPage/>} ></Route>
+                <Route path='./*' element={ <> ERROR 404 Page not found</>} />
+                <Route path='./' element={<Index/>}>
+                    <Route path='./' element ={<Home/>}> </Route>
+                    <Route path='./:title/:id' element={<ProductsPage/>} ></Route>
                 </Route>
             </Routes>
         </BrowserRouter>
