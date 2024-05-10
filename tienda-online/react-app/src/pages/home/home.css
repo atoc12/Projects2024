@@ -1,0 +1,7 @@
+#root{
+    background-color: var(--background-start);
+}
+#home{
+    min-height: 100vh;
+    gap: 1em;
+}

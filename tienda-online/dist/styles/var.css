@@ -1,0 +1,23 @@
+:root {
+    --mobile-small: 767px;
+    --mobile-medium: 768px;
+    --mobile-large: 991px;
+    --desktop: 1200px;
+
+    --border-primary:black;
+    --background-start:#f1efef;
+    --background-primary:#ffff;
+    --border-secondary:#d4d3d3;
+
+    --color-text-primary:black;
+    --color-text-secondary:gray;
+    --color-text-invert:white;
+}
+
+:root[data-theme="dark"]{
+
+}
+
+:root[data-theme="litght"]{
+
+}
