@@ -28,5 +28,5 @@ export const routerElement = createBrowserRouter(
         </Route>
 
       </>
-    ),{basename:"/tienda-online/dist/"}
+    ),{basename:"projects2024/tienda-online/dist/"}
 );
