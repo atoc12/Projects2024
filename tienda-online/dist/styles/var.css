@@ -5,13 +5,28 @@
     --desktop: 1200px;
 
     --border-primary:black;
+    --border-secondary:#d4d3d3;
+
+
     --background-start:#f1efef;
     --background-primary:#ffff;
-    --border-secondary:#d4d3d3;
+    --background-invert:black;
+    --backgorund-invert-opacity-low:rgba(0, 0, 0, 0.534);
+    --background-secondary:#dddcdc;
+    --background-color-primary:rgb(17, 15, 39);
+    --background-color-primary-opacity-low:rgba(34, 6, 87, 0.815);
 
     --color-text-primary:black;
     --color-text-secondary:gray;
     --color-text-invert:white;
+
+    --color-primary:#0f02;
+    --color-primary-hover: #0f05;
+
+    --color-secondary:#0002;
+    --color-secondary-hover: #000f;
+    
+    --button-secondary:#fff7;
 }
 
 :root[data-theme="dark"]{

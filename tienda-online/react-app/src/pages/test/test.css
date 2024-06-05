@@ -1,0 +1,40 @@
+.test-slider{
+    min-height: 200px;
+    border: 2px solid black;
+    border-radius: .5em;
+    display: flex;
+}
+.test-slider-content{
+    scroll-snap-type: x mandatory;
+    flex: 1;
+    display: flex;
+    overflow: hidden;
+    margin: 5px;
+    gap: .5em;
+    padding: 1em;
+}
+
+.item{
+    scroll-snap-align: center;
+    min-width: calc(100%/4);
+    max-width: calc(100%/4);
+    flex: 1;
+}
+@media screen and (min-width:661px){
+    .item{
+        scroll-snap-align: end;
+    }
+}
+@media screen and (max-width:660px) {
+    .item{
+        min-width: calc(100%/2);
+        max-width: calc(100%/2);   
+    }
+}
+@media screen and (max-width:500px) {
+    .item{
+        
+        min-width: 100%;
+        max-width: 100%;
+    }
+}

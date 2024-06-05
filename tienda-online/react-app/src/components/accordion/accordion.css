@@ -1,0 +1,14 @@
+.accordion{
+    width: 100%;
+    flex: 1;
+    display: flex;
+}
+
+.accordion-item{
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+.accordion-content{
+    padding: 1em;
+}

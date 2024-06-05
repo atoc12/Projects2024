@@ -1,3 +1,4 @@
+import { RouterProvider } from "react-router-dom";
 import Context from "./context/context";
 import RoutesComponent from "./routes/routes";
 
@@ -5,7 +6,7 @@ import RoutesComponent from "./routes/routes";
 const App = ()=>{
     return(
         <Context>
-            <RoutesComponent/>
+            <RouterProvider router={RoutesComponent}/>
         </Context>
     )
 }

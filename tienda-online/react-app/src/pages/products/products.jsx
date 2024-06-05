@@ -1,51 +1,145 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom";
 import { useProduct } from "../../hooks/products";
+import { Slider } from "../../components/slider/slider";
+import { Card } from "../../components/card/card";
 
 export const ProductsPage = ()=>{
     const {title,id} = useParams();
-    const {getProduct,products} = useProduct();
+    const {getProduct,getAllProducts,products,setProducts,loading} = useProduct();
+    const [other,setOther] = useState(null);
+    const [image,setImage] = useState(null);
+
+    const [load,setLoad] = useState(true);
 
     useEffect(()=>{
+        setLoad(true);
+        setImage(null);
+        setProducts(null);
         getProduct(id);
-    },[])
+        getAllProducts((res)=>setOther(res))
+        window.scrollTo(0, 0);
+    },[title,id])
 
     useEffect(()=>{
-        console.log(products);
+
+        if(products?.image){
+            const imgLoad = new Image();
+            imgLoad.src = products.image;
+            imgLoad.onload = ()=>{
+                setImage(products.image);
+                setLoad(false);
+            }
+        }
+
     },[products])
 
     return(
         <div className="flex gap-2 wrap">
 
-            <div className="row gap-3 col-3 bg-primary br-1 p-3">
+            <div className="col col-1 wrap gap-2">
 
-                <section className="col wrap">
+                <section className=" row col-3 h-full bg-primary">
+                    
+                    <div className="col col-1 gap-1 p-2 wrap min-h-600 p-3 justify-between ">
 
-                    <section className="col-3 flex justify-center">
-                        <img className="w-full max-w-600 h-full aspect-7-4 object-contain" src={products?.image} alt={title} loading="lazy" />
-                    </section>
-
-                    <section className=" row col-1 wrap gap-1 min-w-200 max-w-275">
-
-                        <h1 className=""> {title} </h1>
-                        <section>
-                            <span className="text-small"> Rating {products?.rating.rate}/5 ({products?.rating.count})</span>
+                        <section className="bg-primary col-1 justify-center flex shadow-2 br-3 overflow-hidden">
+                                {
+                                    load ? 
+                                       <span className="w-full min-w-300 h-full block skeleton-loader"></span>
+                                    :
+                                        <div className="w-full h-full max-w-500">
+                                                    <img src={ image } className="op-animation w-full h-full object-contain aspect-4-3" alt={products?.title} />
+                                        </div>
+                                }
                         </section>
-                        <h3>Price: <span className="succes">${products?.price}</span></h3>
-                    </section>
+
+                        <section className="row gap-1 p-2 min-w-300">
+                            <div className="col-1 row max-w-300 gap-2 ">
+
+                                <section className="col">
+                                    {
+                                        load ?
+                                         <span className="block chip min-w-100 h-10 skeleton-loader"></span>
+                                        :<span className="chip small-text chip-secondary min-w-50">{products?.category}</span>
+                                    }
+                                </section>
+                                
+                                {
+                                    load ? 
+                                    <>
+                                        <div className="flex gap-1">
+                                            <span className="w-200 h-20 block skeleton-loader br-2"></span>
+                                            <span className="w-100 h-20 block skeleton-loader br-2"></span>
+                                        </div>
+                                    </>
+                                    :<h1 className="x-text"> { products?.title } </h1>
+                                }
+                                
+                                <section>
+                                    {
+                                        load ? 
+                                            <span className="block w-100 h-20 skeleton-loader br-2"></span>
+                                        :
+                                            <span className="x-text">
+                                                ${products?.price}
+                                            </span>
+                                    }
+
+                                </section>
+
+                                <section>
+                                    {
+                                        load ?
+                                            <span className="block w-100 h-30 br-2 skeleton-loader"></span>
+                                        :
+                                            <button className="btn btn-primary large-text p-2 br-1">Comprar</button>
+                                    }
+                                </section>
+
+                            </div>
+                        </section>
+
+                    </div>
+
+
+                    <div className="p-4 row gap-1">
+                        <h1 className="large-text">Descripcion</h1>
+                        <hr className="hrcolor" />
+                        <p className="large-text">{products?.description}</p>
+                    </div>
 
                 </section>
 
+            </div>
 
-                <section className="col gap-2">
+            <div className="col-1 row p-l-2 p-r-2 w-full h-full">
 
-                    <section className="row gap-1">
-                        <h5 className="text-secondary">Description</h5>
-                        <hr className="hrcolor" />
-                        <p>{products?.description}</p>
-                    </section>
+                <section className="w-full h-full">
+                    <h1>Más productos</h1>
+                    <Slider>
+                        {
+                            other?.map((prod,key)=><Card key={key} prod={prod}></Card>)
+                        }
+                    </Slider>
+                </section>
 
+                
+            </div>
 
+            <div className="col-1 row bg-primary p-3 br-2 gap-1">
+
+                <h3>Opiniones y comentarios</h3>
+
+                <section className="col-1 flex">
+                    <form className="col-1 row p-b-2">
+                        <input type="text" className="col-1 p-2" name="" id="" placeholder="..." />
+                    </form>
+                </section>
+                <hr className="hrcolor"  />
+
+                <section className="p-t-2">
+                    <span>No hay comentarios...</span>
                 </section>
 
             </div>
