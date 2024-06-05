@@ -13,8 +13,8 @@ const Home = ()=>{
             <div className='col bg-primary h-250'>
 
                 <section className='col-1 relative '>
-                    <img className='w-full h-full duplicate-img-index object-cover aspect-4-3' src="./public/img/banner/banner1.jpg" alt="" />
-                    <img className='duplicate-img-blur' src="./public/img/banner/banner1.jpg" alt="" />
+                    <img className='w-full h-full duplicate-img-index object-cover aspect-4-3' src="/public/img/banner/banner1.jpg" alt="" />
+                    <img className='duplicate-img-blur' src="/public/img/banner/banner1.jpg" alt="" />
                 </section>
 
             </div>

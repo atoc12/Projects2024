@@ -1,12 +1,12 @@
-import { RouterProvider } from "react-router-dom";
+import { BrowserRouter, RouterProvider,  } from "react-router-dom";
 import Context from "./context/context";
-import RoutesComponent from "./routes/routes";
+import { routerElement } from "./routes/routes";
 
 
 const App = ()=>{
     return(
         <Context>
-            <RouterProvider router={RoutesComponent}/>
+            <RouterProvider router={routerElement} />
         </Context>
     )
 }

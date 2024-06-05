@@ -10,9 +10,9 @@ import { ResultPage } from '../pages/result/result';
 
 
 
-const routerElement = createBrowserRouter(
+export const routerElement = createBrowserRouter(
     createRoutesFromElements(
-      <Route>
+      <>
         <Route path='*' element={ <>ERROR 404 Page not found</>} />
 
         <Route element={<Index />}>
@@ -27,8 +27,6 @@ const routerElement = createBrowserRouter(
           <Route path='login' element={<SignInPage />} />
         </Route>
 
-      </Route>
-    )
+      </>
+    ),{basename:"/tienda-online/dist/"}
 );
-
-export default routerElement;
