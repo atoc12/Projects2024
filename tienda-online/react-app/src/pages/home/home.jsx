@@ -20,8 +20,8 @@ const Home = ()=>{
             <div className='col bg-primary h-250'>
 
                 <section className='col-1 relative '>
-                    <img className='w-full h-full duplicate-img-index object-cover aspect-4-3' src={banner1} alt="banner" />
-                    <img className='duplicate-img-blur' src={banner1} alt="banner" />
+                    <img className='w-full h-full duplicate-img-index object-cover aspect-4-3' src={"."+banner1} alt="banner" />
+                    <img className='duplicate-img-blur' src={"."+banner1} alt="banner" />
                 </section>
 
             </div>
