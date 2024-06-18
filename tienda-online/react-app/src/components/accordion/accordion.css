@@ -2,6 +2,8 @@
     width: 100%;
     flex: 1;
     display: flex;
+    transition: max-height 0.3s linear,min-height .3s linear;
+    cursor: pointer;
 }
 
 .accordion-item{
@@ -9,6 +11,17 @@
     flex-flow: column nowrap;
 }
 
-.accordion-content{
-    padding: 1em;
+.accordion-content {
+    user-select: none;
+    max-height: 0px;
+    visibility: hidden;
+    overflow: hidden;
+    transition: max-height 300ms ease-out ,min-height 300ms linear, visibility 200ms linear;
+  }
+  
+.accordion-content[data-open="visible"] {
+    max-height: 500px; /* Puedes ajustar esto según la altura máxima esperada del contenido */
+    visibility: visible;
+    
 }
+  

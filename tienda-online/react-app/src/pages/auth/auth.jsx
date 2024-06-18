@@ -1,11 +1,12 @@
-import { Link, Outlet } from "react-router-dom"
+import { Link, Outlet, useNavigate } from "react-router-dom"
 
 export const AuthPage = ()=>{
+    const navigate = useNavigate();
     return(
         <div className="min-h-100vh row">
             <header className="bg-color-primary p-2">
                 <section className="container-xl">
-                    <Link to={"/"} className="text-white no-decoration large-text"> &#10094; Inicio</Link>
+                    <Link className="text-white no-decoration large-text" onClick={()=>navigate(-1)} role="link go back"> &#10094; Volver</Link>
                 </section>
             </header>
 

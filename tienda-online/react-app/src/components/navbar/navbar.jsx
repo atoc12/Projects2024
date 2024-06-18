@@ -3,11 +3,12 @@ import { BsCart } from "react-icons/bs";
 import { FaCartShopping } from "react-icons/fa6";
 import { FaRegUser } from "react-icons/fa";
 import { useState } from "react";
+import { useCart } from "../../context/cartContext";
 
 const NavBarSearch = ()=>{
     let submit = useSubmit()
     const [search,setSearch] = useState(null);
-
+    
     return(
                         
         <Form action="/result" className="col-1 row">
@@ -17,6 +18,7 @@ const NavBarSearch = ()=>{
 }
 
 export const NavBar = ()=>{
+    const {cart} = useCart();
     return(
         <>
             <div className='bg-color-primary bg-blur-01 sticky w-full top-0 left-0 z-99'>
@@ -43,9 +45,14 @@ export const NavBar = ()=>{
 
                         <div className="col-1 col">
 
-                            <Link to={"/cart"} className="mp-decoration text-white w-full h-full" role="Cart button" title="Cart" > <FaCartShopping className="x-text"/> </Link>
+                            <Link to={"/cart"} className="mp-decoration text-white w-full h-full relative" role="Cart button" title="Cart" > 
+                                <FaCartShopping className="x-text"/> 
+                                {
+                                   cart.list.length > 0 &&  <span className="absolute h-15 w-15 circle bottom-80 rigth-100 bg-red overflow-hidden flex align-center p-1 justify-center small-text" >{cart.list.length}</span> 
+                                }
+                            </Link>
 
-                            <Link to={"/auth"} className="mp-decoration text-white w-full h-full" role="Accont button" title="Accont" > <FaRegUser className=" x-text"/> </Link>
+                            <Link to={"/auth/login"} className="mp-decoration text-white w-full h-full" role="Accont button" title="Accont" > <FaRegUser className=" x-text"/> </Link>
                             
                         </div>
 

@@ -8,7 +8,7 @@ export const Index = ()=>{
 
             <NavBar></NavBar>
 
-            <div className="container-xl min-h-100vh op-animation">
+            <div className="container-xl min-h-100vh op-animation overflow-hidden">
 
                 <Outlet/>
             </div>

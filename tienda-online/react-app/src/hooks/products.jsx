@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { GET_API } from "../functions/getapi";
 
 export const useProduct = () => {
@@ -6,26 +6,32 @@ export const useProduct = () => {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    const getAllProducts = (callback) => {
+    const getAllProducts = ({path,callback}) => {
         setLoading(true);
-        GET_API({ path: "products" }).then((res) => {
+        GET_API({ path: path || "products" }).then((res) => {
 
             if(callback){
-                callback(res,loading) 
+                callback(res) 
             }else{
-                setProducts(res); setLoading(false);
+                setProducts(res);
             }
+            setLoading(false);
 
         });
     }
 
-    const getProduct = (id) => {
+    const getProduct = ({path,callback}) => {
         setLoading(true);
-        GET_API({ path: "products/" + id }).then(res => {
+        GET_API({ path: "products/" + path }).then(res => {
             setProducts(res);
             setLoading(false);
+            callback && callback();
         });
     }
 
-    return { products, filter, setFilter, getAllProducts, getProduct, loading ,setProducts};
+    useEffect(()=>{
+        console.log(products);
+    },[products]);
+
+    return { products, filter, setFilter, getAllProducts, getProduct, loading ,setProducts,setLoading};
 }

@@ -1,4 +1,4 @@
-import {createBrowserRouter, Route, Router, Routes, createRoutesFromElements, redirect } from 'react-router-dom'
+import {createBrowserRouter, Route, Router, Routes, createRoutesFromElements, redirect, createHashRouter } from 'react-router-dom'
 import Home from '../pages/home/home';
 import { ProductsPage } from '../pages/products/products';
 import { Index } from '../pages';
@@ -6,11 +6,11 @@ import Test from '../pages/test/test';
 import { CartPage } from '../pages/cart/cart';
 import { AuthPage } from '../pages/auth/auth';
 import { SignInPage } from '../pages/auth/sign_in';
-import { ResultPage } from '../pages/result/result';
+import { ResultPage, resultLoader } from '../pages/result/result';
 
 
 
-export const routerElement = createBrowserRouter(
+export const routerElement = createHashRouter(
     createRoutesFromElements(
       <>
         <Route path='*' element={ <>ERROR 404 Page not found</>} />
@@ -20,7 +20,7 @@ export const routerElement = createBrowserRouter(
           <Route path='/:title/:id' element={<ProductsPage />} />
           <Route path='/test' element={<Test />} />
           <Route path='/cart' element={<CartPage />} />
-          <Route path='/result' element={<ResultPage />} />
+          <Route path='/result' element={<ResultPage />} loader={resultLoader}/>
         </Route>
 
         <Route path='auth' element={<AuthPage />}>
@@ -28,5 +28,5 @@ export const routerElement = createBrowserRouter(
         </Route>
 
       </>
-    ),{basename:"/Projects2024/tienda-online/dist/"}
+    )
 );

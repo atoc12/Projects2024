@@ -16,9 +16,24 @@
     }
 }
 
+.expand-animation-1{
+    animation: expand1 1s ease-in-out infinite backwards;
+}
 
-
-
+@keyframes expand1 {
+    0%{
+        height: 0%;
+        width: 0%;
+    }
+    50%{
+        height: 100%;
+        width: 100%;
+    }
+    100%{
+        height: 0%;
+        width: 0%;
+    }
+}
 
 .op-animation{
     animation: op 300ms linear;

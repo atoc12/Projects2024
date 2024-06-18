@@ -1,58 +1,148 @@
-import {useLoaderData, useParams } from "react-router-dom"
+import {Link, useLoaderData, useParams } from "react-router-dom"
 import { Accordion ,AccordionItem} from "../../components/accordion/accordion"
 import { useEffect, useState } from "react";
 import { Card } from "../../components/card/card";
 import { LuLayoutGrid, LuLayoutList } from "react-icons/lu";
 import { useProduct } from "../../hooks/products";
+import { Loader } from "../../components/loader/loader";
+import { useQueryParams } from "../../hooks/queryParams";
 
 export const ResultPage = ()=>{
-    const [layoutGrid,setLayoutGrid] = useState("row");
-    const {getAllProducts,getProduct,products,loading} = useProduct();
-    const search = useLoaderData();
+    const [layoutGrid,setLayoutGrid] = useState("col");
+    const queryParam = useQueryParams();
+    const {getAllProducts,products,setProducts,filter,setLoading,setFilter,loading} = useProduct();
+
+    const [search,setSearch] =useState(queryParam.get("search"));
+
+    const [category, setCategory] = useState([]);
+    const [minPrice, setMinPrice] = useState(0);
+    const [maxPrice, setMaxPrice] = useState("100000");
+
+    useEffect(() => {
+        getAllProducts({ path: "products/categories", callback: (res) => setCategory(res) });
+        
+    }, []);
 
     useEffect(()=>{
-        getAllProducts();
-    },[])
+        setSearch(queryParam.get("search"));
+    },[queryParam]);
+
+    useEffect(() => {
+        const fetchFilteredProducts = async () => {
+            setLoading(true);
+            await getAllProducts({
+                callback: (res) => {
+                    const result = res.filter((item) => {
+                        const matchesSearch = search
+                            ? Object.values(item).some(
+                                  (value) =>
+                                      typeof value === "string" &&
+                                      value.toLowerCase().includes(search.toLowerCase())
+                              )
+                            : true;
+                        const matchesCategory = filter ? item.category === filter : true;
+                        const matchesPrice = item.price >= minPrice && item.price <= maxPrice;
+
+                        return matchesSearch && matchesCategory && matchesPrice;
+                    });
+
+                    setProducts(result);
+                    setLoading(false);
+                },
+            });
+        };
+
+        fetchFilteredProducts();
+    }, [search, filter, minPrice, maxPrice]);
+
 
     return(
-        <div className="col min-h-100vh gap-1">
+        <div className="col min-h-100vh gap-1 justify-between">
 
-            <section className="row align-center min-w-200 max-w-200 col-1 bg-primary" aria-label="Aside filter and more">
-                <Accordion className="row">
+            <section className="row min-w-200 max-w-200 gap-2 col-1 bg-primary p-2" aria-label="Aside filter and more">
 
-                    <AccordionItem title="Filtros">
+                <Accordion className="row p-1 gap-2" openAll={true} >
+
+                    
+                    <AccordionItem title="Precio">
                         
-                        <form className="row col-1">
+                        <form className="row col-1 p-2">
 
                             <section>
 
-                                <label htmlFor="">Precio</label>
+                                <section className="col justify-around">
+                                    <label htmlFor="min-input">Minimo:</label>
+                                    <input type="number" value={minPrice} onChange={(e)=>setMinPrice(Number(e.target.value))} className="max-w-50 input-forms no-forms no-aparence" />
+                                </section>
 
-                                <input type="range" name="" id="" />
+                                <input 
+                                    type="range" 
+                                    name="" 
+                                    id="min-input" 
+                                    value={minPrice} 
+                                    max="1000000"
+                                    step="10"
+                                    onChange={(e) => setMinPrice(Number(e.target.value))}
+                                />
 
                             </section>
 
+                            <section>
 
+                                <section className="col justify-around">
+                                    <label htmlFor="max-input">Maximo:</label>
+                                    <input type="number" value={maxPrice} onChange={(e)=>setMaxPrice(Number(e.target.value))} className="max-w-50 input-forms no-forms no-aparence" />
+                                </section>
 
+                                <input 
+                                    type="range"
+                                    name="" 
+                                    id="max-input" 
+                                    value={maxPrice} 
+                                    max="1000000"
+                                    step="10" 
+                                    onChange={(e) => setMaxPrice(Number(e.target.value))}
+                                />
+
+                            </section>
 
                         </form>
                         
                     </AccordionItem>
 
-                    <AccordionItem title="Section 2">
-                        <p>Content of Section 2</p>
-                        <button>Button 2</button>
+                    <AccordionItem title="Categorias">
+
+                        <div className="p-2 row">
+                            {
+                                category.map((value,key)=>{
+                                    return(
+                                        <button className="btn text-start p-1" value={value} key={key} onClick={()=>setFilter(value)} > {value} </button>
+                                    )
+                                })
+                            }
+                            
+
+                        </div>
                     </AccordionItem>
 
-                    <AccordionItem title="Section 3">
-                        <p>Content of Section 3</p>
-                        <button>Button 3</button>
+                    <AccordionItem title={"Otros"}>
+
+                        <div className="p-2 row">
+                            <button className="row p-1 text-theme btn text-start"> Historial </button>
+                            <button className="row p-1 text-theme btn text-start"> Favorito </button>
+                        </div>
+
                     </AccordionItem>
                     
                 </Accordion>
             </section>
 
             <section className="row col-3 gap-2 bg-primary p-3 " aria-label="Content of the products">
+
+                <section className="col col-1 justify-between">
+                    <h4> busqueda realizada {search && search} </h4>
+                    <span> resultados totales: { products?.length } </span>
+                </section>
 
                 <section className="col w-full gap-2 col-1">
 
@@ -71,18 +161,26 @@ export const ResultPage = ()=>{
 
                 </section>
 
+
                 <div className={`h-full wrap ${layoutGrid} justify-center gap-3`}>
                     {
                         loading ? 
-                            <div className="h-full">Cargando...</div>
+                            <div className="h-full w-full row align-center"><Loader/></div>
                         :
-                        products?.map((prod,key)=>{
-                            return(
-                                <div key={key} className={`${layoutGrid == "col" ? "col-1 max-w-200 " : ""}`}>
-                                    <Card prod={prod} />
-                                </div>
-                            )
-                        })
+                        <>
+                            {
+                                products?.length>0 ? products?.map((prod,key)=>{
+                                    return(
+                                        <div key={key} className={`${layoutGrid == "col" ? "col-1 max-w-200 " : ""}`}>
+                                            <Card prod={prod} title_wrap={layoutGrid == "col" ? false : true} />
+                                        </div>
+                                    )
+                                })
+                                :
+                                "no hay resultados"
+                        }
+
+                        </>
                     }
 
                 </div>

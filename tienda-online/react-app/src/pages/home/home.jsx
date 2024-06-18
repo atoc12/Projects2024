@@ -1,11 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import './home.css';
 import { Card } from '../../components/card/card.jsx';
 import { useProduct } from '../../hooks/products.jsx';
 import { Slider } from '../../components/slider/slider.jsx';
+import { Link } from 'react-router-dom';
+import { useHistory } from '../../hooks/history.jsx';
 const Home = ()=>{
     const {products,getAllProducts,loading} = useProduct();
-    useEffect(getAllProducts,[]);
+    const {history} = useHistory();
+
+    useEffect(()=>{
+        getAllProducts({});
+    },[]);
 
     return(
         <div className="row p-3 gap-1">
@@ -21,7 +27,7 @@ const Home = ()=>{
 
             <div className="flex row gap-1">
                 <div className='col p-2'>
-                    <h1 className='x-text'>Productos <a className='small-text no-decoration' href="">ver más</a></h1>
+                    <h1 className='x-text'>Productos <Link className='small-text no-decoration' to="/result/">ver más</Link></h1>
                 </div>
 
                 <div className='row'>
@@ -34,17 +40,19 @@ const Home = ()=>{
                 
             </div>
 
-            <div className="flex row gap-1">
-                <div className='col p-2'>
-                    <h1 className='x-text'>Historial <a className='small-text no-decoration' href="">ver más</a></h1>
-                </div>
+                {
+                    history?.products.length > 0 &&
+                    <div className="flex row gap-1">
+                        <div className='col p-2'>
+                            <h1 className='x-text'>Historial <a className='small-text no-decoration' href="">ver más</a></h1>
+                        </div>
 
-                
-                <Slider>
-                        {products?.map((prod, key) => <Card key={key} prod={prod}></Card>)}
-                </Slider>
+                            <Slider>
+                                    {history?.products.map((prod, key) => <Card key={key} prod={prod}></Card>)}
+                            </Slider>
 
-            </div>
+                    </div>
+                }
 
             <div className="flex row gap-1">
 
@@ -67,39 +75,6 @@ const Home = ()=>{
                     </div>
 
                 </section>
-                
-                {/* <section className='col gap-2'>
-
-                    <div className='row max-w-50 col-1 bg-gradient-primary p-3'>
-                    
-                    </div>
-
-                    <div className='row col-3 bg-primary p-3 overflow-hidden'>
-                        <Slider>
-                            {
-                                products?.map((prod,key)=><Card key={key} prod={prod}></Card>)
-                            }
-                        </Slider>
-                    </div>
-
-                </section>
-                
-                <section className='col gap-2'>
-
-                    <div className='row col-3 bg-primary p-3 overflow-hidden'>
-                        <Slider>
-                            {
-                                products?.map((prod,key)=><Card key={key} prod={prod}></Card>)
-                            }
-                        </Slider>
-                    </div>
-
-                    <div className='row max-w-50 col-1 bg-gradient-primary p-3'>
-
-                    </div>
-
-
-                </section> */}
 
             </div>
 

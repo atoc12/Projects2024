@@ -3,10 +3,15 @@ import { useParams } from "react-router-dom";
 import { useProduct } from "../../hooks/products";
 import { Slider } from "../../components/slider/slider";
 import { Card } from "../../components/card/card";
+import { useHistory } from "../../hooks/history";
+import { useCart } from "../../context/cartContext";
 
 export const ProductsPage = ()=>{
     const {title,id} = useParams();
     const {getProduct,getAllProducts,products,setProducts,loading} = useProduct();
+    const {addHistory} = useHistory();
+    const {addItem} =useCart();
+
     const [other,setOther] = useState(null);
     const [image,setImage] = useState(null);
 
@@ -16,21 +21,33 @@ export const ProductsPage = ()=>{
         setLoad(true);
         setImage(null);
         setProducts(null);
-        getProduct(id);
-        getAllProducts((res)=>setOther(res))
+        getProduct({path:id,callback:()=>{
+
+            
+        }});
+
+        getAllProducts({callback:(res)=>setOther(res)})
         window.scrollTo(0, 0);
+
     },[title,id])
-
+        
     useEffect(()=>{
+            
+        if(products?.id){
+            addHistory({item:products,type:"products"});
+            
 
-        if(products?.image){
-            const imgLoad = new Image();
-            imgLoad.src = products.image;
-            imgLoad.onload = ()=>{
-                setImage(products.image);
-                setLoad(false);
+            if(products?.image){
+                const imgLoad = new Image();
+                imgLoad.src = products.image;
+                imgLoad.onload = ()=>{
+                    setImage(products.image);
+                    setLoad(false);
+                }
             }
+
         }
+
 
     },[products])
 
@@ -93,7 +110,7 @@ export const ProductsPage = ()=>{
                                         load ?
                                             <span className="block w-100 h-30 br-2 skeleton-loader"></span>
                                         :
-                                            <button className="btn btn-primary large-text p-2 br-1">Comprar</button>
+                                            <button className="btn btn-primary large-text p-2 br-1" onClick={()=>addItem({item:products})} >Comprar</button>
                                     }
                                 </section>
 

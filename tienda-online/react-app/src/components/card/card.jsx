@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useCart } from "../../context/cartContext";
 
-export const Card = ({ className = "", addButton = true, prod = {}, loading = true }) => {
+export const Card = ({ className = "", addButton = true, prod = {},title_wrap=false, loading = true }) => {
+    const {addItem,setCart} = useCart();
     const [load,setLoad] = useState(loading);
     const [images, setImages] = useState(prod?.image);
 
@@ -17,7 +19,7 @@ export const Card = ({ className = "", addButton = true, prod = {}, loading = tr
     }, [prod]);
 
     return (
-        <Link className={`row col-1 br-1 no-link op-animation shadow-2 br-2 overflow-hidden ${className}`} to={load ? "#" : "../" + prod?.title + "/" + prod?.id}>
+        <Link className={`row h-full min-h-300 col-1 br-1 no-link op-animation shadow-2 br-2 overflow-hidden ${className}`} to={load ? "#" : "../" + prod?.title + "/" + prod?.id}>
             <article className='bg-primary row h-full br-1 gap-1 col-1' data-category={prod?.category}>
 
                 <section className='col-1 w-full h-full relative bg-primary max-w-300'>
@@ -38,7 +40,7 @@ export const Card = ({ className = "", addButton = true, prod = {}, loading = tr
                         load ?
                             <span className="block min-w-100 skeleton-loader br-2" style={{height:"10px"}}></span>
                         :
-                            <h1 className='weight-600 text-ellipsis text-nowrap overflow-hidden small-text' title={prod?.title}>{prod?.title}</h1>
+                            <h1 className={`weight-600 text-ellipsis ${title_wrap ? "" : "text-nowrap"  } overflow-hidden small-text`} title={prod?.title}>{prod?.title}</h1>
                     }
 
                     <section className='flex'>
@@ -58,7 +60,7 @@ export const Card = ({ className = "", addButton = true, prod = {}, loading = tr
                                 load ? 
                                     <span className="block skeleton-loader w-full h-30 br-2"></span>
                                     :
-                                    <button className="w-full btn btn-primary p-1 br-1 medium-text">Añadir</button>
+                                    <button className="w-full btn btn-primary p-1 br-1 medium-text" onClick={(e)=>{e.preventDefault(); e.stopPropagation();addItem({item:prod})}} >Añadir</button>
                             }
                         </section>
                     )}
